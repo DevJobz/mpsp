@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Simulados</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a820;
+    --blue-dark: #1a2a4a;
+    --border: #c8b89a;
+    --shadow: rgba(26,18,8,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background-color: var(--paper);
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(184,134,11,0.07) 27px, rgba(184,134,11,0.07) 28px);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 900;
+    color: var(--blue-dark);
+    line-height: 1.2;
+  }
+
+  header p {
+    font-size: 1.1rem;
+    color: var(--ink);
+    opacity: 0.8;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+
+  /* Grid Mobile-First */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 coluna no mobile */
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  /* Expande para 2 colunas em telas a partir de 600px */
+  @media (min-width: 600px) {
+    .menu-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .btn-simulado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--blue-dark);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 1.2rem;
+    border: 2px solid var(--gold);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+
+  .btn-simulado:hover {
+    background: var(--gold);
+    color: var(--ink);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px var(--shadow);
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Painel de Simulados</h1>
+    <p>Selecione a disciplina para iniciar</p>
+  </header>
+
+  <main class="menu-grid">
+    <a href="geografia.html" class="btn-simulado">1 - Simulado Geografia</a>
+    <a href="historia.html" class="btn-simulado">2 - Simulado História</a>
+    <a href="legislacao.html" class="btn-simulado">3 - Simulado Legislação</a>
+    <a href="informatica.html" class="btn-simulado">4 - Simulado Informática</a>
+    <a href="matematica.html" class="btn-simulado">5 - Simulado Matemática</a>
+    <a href="portugues.html" class="btn-simulado">6 - Simulado Português</a>
+  </main>
+
+</body>
+</html>

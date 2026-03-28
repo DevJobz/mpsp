@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questões de Geografia · VUNESP · Nível Fundamental</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a472a;
+    --verde-medio: #2d6a4f;
+    --verde-claro: #52b788;
+    --amarelo: #d4a017;
+    --amarelo-claro: #fef3c7;
+    --creme: #faf7f2;
+    --papel: #f5f0e8;
+    --tinta: #1c1c1c;
+    --tinta-suave: #3d3d3d;
+    --cinza: #9ca3af;
+    --errado: #c0392b;
+    --errado-bg: #fdf0ef;
+    --certo: #1a6b3c;
+    --certo-bg: #edf7f1;
+    --borda: #d6cfc2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background-color: var(--creme);
+    color: var(--tinta);
+    line-height: 1.7;
+  }
+
+  /* CABEÇALHO */
+
+  /* Adicione junto ao CSS do Header */
+  .btn-voltar {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    color: var(--gold-light);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .btn-voltar:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    .btn-voltar {
+      position: relative;
+      display: inline-block;
+      top: 0;
+      left: 0;
+      margin-bottom: 1.5rem;
+    }
+  }
+  header {
+    background: var(--verde);
+    color: #fff;
+    padding: 48px 32px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(255,255,255,0.03) 18px,
+      rgba(255,255,255,0.03) 36px
+    );
+  }
+  header .badge {
+    display: inline-block;
+    background: var(--amarelo);
+    color: var(--verde);
+    font-family: 'Source Serif 4', serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  header p {
+    font-size: 14px;
+    opacity: 0.75;
+    letter-spacing: 0.5px;
+  }
+
+  /* PLACAR */
+  .placar-bar {
+    background: var(--papel);
+    border-bottom: 2px solid var(--borda);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .placar-info {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .placar-item {
+    text-align: center;
+  }
+  .placar-item .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--verde);
+    display: block;
+  }
+  .placar-item .label {
+    font-size: 11px;
+    color: var(--cinza);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .btn-reset {
+    background: transparent;
+    border: 1.5px solid var(--verde);
+    color: var(--verde);
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    padding: 8px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .btn-reset:hover {
+    background: var(--verde);
+    color: #fff;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* QUESTÃO */
+  .questao {
+    background: #fff;
+    border: 1.5px solid var(--borda);
+    border-radius: 6px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .questao:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+  }
+
+  .questao-header {
+    background: var(--verde);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .q-numero {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    line-height: 1;
+    min-width: 40px;
+  }
+  .q-tema {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .q-status-icon {
+    margin-left: auto;
+    font-size: 20px;
+    display: none;
+  }
+
+  .questao-body {
+    padding: 28px 28px 20px;
+  }
+
+  .enunciado {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--tinta);
+    margin-bottom: 6px;
+  }
+  .enunciado strong {
+    color: var(--verde-medio);
+  }
+
+  .destaque-box {
+    background: var(--amarelo-claro);
+    border-left: 4px solid var(--amarelo);
+    padding: 12px 18px;
+    margin: 14px 0 20px;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: #5a4a00;
+  }
+
+  .tabela-questao {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 14px 0 20px;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .tabela-questao thead tr {
+    background: var(--verde-medio);
+    color: #fff;
+  }
+  .tabela-questao th, .tabela-questao td {
+    padding: 9px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--borda);
+  }
+  .tabela-questao tbody tr:nth-child(even) {
+    background: var(--papel);
+  }
+
+  /* ALTERNATIVAS */
+  .alternativas {
+    list-style: none;
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .alt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--borda);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: #fff;
+  }
+  .alt:hover {
+    border-color: var(--verde-claro);
+    background: var(--certo-bg);
+  }
+  .alt.selecionada {
+    border-color: #2563eb;
+    background: #eff6ff;
+  }
+  .alt.correta {
+    border-color: var(--certo);
+    background: var(--certo-bg);
+  }
+  .alt.errada {
+    border-color: var(--errado);
+    background: var(--errado-bg);
+  }
+  .alt.neutra-certa {
+    border-color: var(--certo);
+    background: var(--certo-bg);
+    opacity: 0.7;
+  }
+  .alt-letra {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    min-width: 24px;
+    color: var(--verde-medio);
+    padding-top: 1px;
+  }
+  .alt.errada .alt-letra { color: var(--errado); }
+  .alt.correta .alt-letra, .alt.neutra-certa .alt-letra { color: var(--certo); }
+  .alt-texto {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  /* GABARITO */
+  .gabarito-section {
+    display: none;
+    margin: 18px 28px 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1.5px solid var(--borda);
+  }
+  .gabarito-header {
+    background: var(--verde-medio);
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gabarito-body {
+    background: var(--papel);
+    padding: 18px 20px;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--tinta-suave);
+  }
+  .gabarito-body .resposta-certa {
+    color: var(--certo);
+    font-weight: 600;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .gabarito-body .dica-pegadinha {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 13.5px;
+    color: #5a4000;
+  }
+  .gabarito-body .dica-pegadinha::before {
+    content: '⚠️ Pegadinha: ';
+    font-weight: 700;
+  }
+  .gabarito-body .macete {
+    background: #e8f5e9;
+    border: 1px solid #81c784;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 13.5px;
+    color: #1b5e20;
+  }
+  .gabarito-body .macete::before {
+    content: '🧠 Macete: ';
+    font-weight: 700;
+  }
+
+  /* RESULTADO FINAL */
+  .resultado-final {
+    display: none;
+    background: var(--verde);
+    color: #fff;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .resultado-final h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  .resultado-final .nota {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--amarelo);
+    display: block;
+    line-height: 1;
+    margin: 16px 0;
+  }
+  .resultado-final p { opacity: 0.85; font-size: 15px; }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: var(--borda);
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    width: 140px;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--verde-claro);
+    transition: width 0.4s ease;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .questao-body { padding: 20px 16px 14px; }
+    .gabarito-section { margin: 12px 16px 20px; }
+    .placar-bar { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="btn-voltar">← Voltar ao Início</a>
+  <div class="badge">Banca VUNESP · Nível Fundamental · 2026</div>
+  <h1>Bateria de Questões<br>Geografia do Brasil</h1>
+  <p>20 questões inéditas · Gabarito comentado · Padrão VUNESP</p>
+</header>
+
+<div class="placar-bar">
+  <div class="placar-info">
+    <div class="placar-item">
+      <span class="num" id="cnt-respondidas">0</span>
+      <span class="label">Respondidas</span>
+    </div>
+    <div class="placar-item">
+      <span class="num" id="cnt-certas" style="color:var(--certo)">0</span>
+      <span class="label">Acertos</span>
+    </div>
+    <div class="placar-item">
+      <span class="num" id="cnt-erradas" style="color:var(--errado)">0</span>
+      <span class="label">Erros</span>
+    </div>
+    <div class="placar-item">
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+      <span class="label" id="progress-label">0 / 20</span>
+    </div>
+  </div>
+  <button class="btn-reset" onclick="resetar()">↺ Reiniciar</button>
+</div>
+
+<div class="container" id="questoes-container">
+<!-- JS vai injetar as questões aqui -->
+</div>
+
+<script>
+const questoes = [
+  {
+    numero: 1,
+    tema: "Domínios Morfoclimáticos",
+    enunciado: `Observe as características a seguir e identifique o domínio morfoclimático brasileiro correspondente: vegetação de árvores retorcidas com cascas grossas, raízes profundas, gramíneas e solo avermelhado; clima tropical continental com inverno seco e verão úmido; presença marcante de soja, milho e algodão.`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Amazônico",
+      "Cerrado",
+      "Caatinga",
+      "Mares de Morros",
+      "Pradarias"
+    ],
+    gabarito: 1,
+    explicacao: `O Cerrado é o "segundo maior bioma do Brasil" e ocupa o Planalto Central (GO, MT, MS, TO, oeste de MG e BA). Suas características visuais mais marcantes são as árvores baixas e retorcidas com cascas grossas — adaptadas ao fogo e ao estresse hídrico do inverno seco. O solo laterítico avermelhado e a presença de gramíneas completam o reconhecimento. O domínio do Cerrado tornou-se o coração do agronegócio brasileiro: em 2017, respondia por 60% da produção nacional de soja.`,
+    pegadinha: `A Caatinga também tem inverno seco, mas é identificada pelos cactos e solo pedregoso/rachado, não por árvores retorcidas com gramíneas.`,
+    macete: `Árvores retorcidas + capim + solo vermelho + soja = CERRADO.`
+  },
+  {
+    numero: 2,
+    tema: "Localização e Extensão",
+    enunciado: `O Brasil é o quinto maior país do mundo em área territorial. Com relação à sua localização geográfica, é correto afirmar que`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "o país faz fronteira com todos os países da América do Sul, sem exceção.",
+      "o Trópico de Capricórnio atravessa apenas o estado de São Paulo.",
+      "a Linha do Equador corta o território brasileiro no estado do Amapá.",
+      "o Brasil está localizado integralmente no hemisfério sul.",
+      "o ponto mais ao norte do território fica no estado do Amazonas."
+    ],
+    gabarito: 2,
+    explicacao: `A Linha do Equador (0°) atravessa o território brasileiro na altura do estado do Amapá, ao norte do país. Isso explica o clima equatorial quente e úmido da Amazônia próxima a essa região. O ponto mais ao norte é a Serra do Tumucumaque, no Amapá, a 5°16'N.`,
+    pegadinha: `O Brasil NÃO faz fronteira com Equador e Chile. O Trópico de Capricórnio passa por SP, PR e MS (não só SP). O Brasil não está integralmente no hemisfério sul — 7% do território fica no hemisfério norte.`,
+    macete: `Linha do Equador = Amapá. Trópico de Capricórnio = SP + PR + MS.`
+  },
+  {
+    numero: 3,
+    tema: "Domínios Morfoclimáticos",
+    enunciado: `Um estudante descreveu uma paisagem que observou em viagem ao Sul do Brasil: "Vi pinheiros com copa em formato de guarda-chuva aberta, planaltos elevados e clima muito frio com geadas frequentes no inverno." Qual domínio morfoclimático foi descrito pelo estudante?`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Pradarias (Campanha Gaúcha)",
+      "Mares de Morros",
+      "Domínio das Araucárias",
+      "Cerrado",
+      "Amazônico"
+    ],
+    gabarito: 2,
+    explicacao: `O Domínio das Araucárias, também chamado de Florestas de Araucárias, ocupa o Planalto Meridional (RS, SC e PR). Sua vegetação característica é o Pinheiro-do-Paraná (Araucaria angustifolia), com copa plana em "guarda-chuva" — traço visual inconfundível nas questões com fotografia. O clima subtropical com invernos frios e geadas é outro identificador preciso.`,
+    pegadinha: `As Pradarias estão no extremo sul do RS (fronteira com Argentina/Uruguai) e têm campos ABERTOS, sem árvores. Não confundir com Araucárias.`,
+    macete: `Pinheiro copa plana + geadas + Sul do Brasil = ARAUCÁRIAS.`
+  },
+  {
+    numero: 4,
+    tema: "Hidrografia",
+    enunciado: `A usina hidrelétrica de Itaipu, uma das maiores do mundo em capacidade instalada, foi construída em parceria entre o Brasil e outro país. Sobre essa usina e a bacia hidrográfica em que está inserida, analise as afirmações: I. Itaipu está localizada no rio Paraná, em obra compartilhada entre Brasil e Paraguai. II. A Bacia do Paraná é a que apresenta maior aproveitamento hidrelétrico do Brasil. III. Itaipu é a maior hidrelétrica 100% brasileira.`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Apenas I está correta.",
+      "Apenas III está correta.",
+      "I e II estão corretas.",
+      "II e III estão corretas.",
+      "I, II e III estão corretas."
+    ],
+    gabarito: 2,
+    explicacao: `Itaipu está no rio Paraná (fronteira Brasil-Paraguai), com capacidade de 14.000 MW — o que torna I correta. A Bacia do Paraná concentra as maiores usinas do Brasil (Itaipu, Jupiá, Porto Primavera), com maior aproveitamento hidrelétrico — II correta. A afirmação III está ERRADA: a maior usina 100% brasileira é Tucuruí (PA), no rio Tocantins, com 8.370 MW.`,
+    pegadinha: `Itaipu não é 100% brasileira — é compartilhada com o Paraguai. A questão usa essa distinção com frequência.`,
+    macete: `Maior hidrelétrica compartilhada = Itaipu (BR + PY). Maior 100% brasileira = Tucuruí (PA).`
+  },
+  {
+    numero: 5,
+    tema: "Vegetação e Biomas",
+    enunciado: `Sobre os biomas brasileiros e seus percentuais de cobertura original restante, relacione corretamente:`,
+    tabela: {
+      headers: ["Bioma", "Percentual restante (aprox.)"],
+      rows: [
+        ["Floresta Amazônica", "~80% (desmatamento acumulado ~20%)"],
+        ["Cerrado", "~50%"],
+        ["Mata Atlântica", "12–16%"],
+        ["Pampa (RS)", "~36%"]
+      ]
+    },
+    enunciado2: `Com base nos dados acima, assinale a alternativa CORRETA:`,
+    alternativas: [
+      "A Mata Atlântica é o bioma mais preservado do Brasil, com mais de 80% de cobertura original.",
+      "O Cerrado apresenta o menor percentual de cobertura original restante entre todos os biomas.",
+      "A Mata Atlântica é o bioma mais devastado do Brasil, restando apenas 12 a 16% de sua cobertura.",
+      "A Floresta Amazônica perdeu mais de 50% de sua cobertura original para o desmatamento.",
+      "O Pampa gaúcho está mais preservado que a Floresta Amazônica em termos percentuais."
+    ],
+    gabarito: 2,
+    explicacao: `A Mata Atlântica é o bioma mais devastado do Brasil: de 1,3 milhão de km² originais, restam apenas 12–16% de cobertura, segundo o relatório SOS Mata Atlântica 2024. Isso se deve principalmente à ocupação histórica do litoral brasileiro, que coincide com as áreas mais populosas e industrializadas do país (Sudeste e Sul).`,
+    pegadinha: `O Cerrado tem ~50% restante — menos que a Amazônia (~80%), mas mais que a Mata Atlântica (12–16%). Não é o mais devastado.`,
+    macete: `Mais devastado = Mata Atlântica (12–16%). Mais ameaçado pelo desmatamento atual = Cerrado (supera Amazônia em km² recentes).`
+  },
+  {
+    numero: 6,
+    tema: "Recursos Naturais",
+    enunciado: `O Brasil detém posição de destaque mundial em relação a um mineral estratégico utilizado na produção de aços especiais, superligas e como catalisador em refinarias de petróleo. Sobre esse mineral, é correto afirmar que`,
+    destaque: "O Brasil controla 98% das reservas mundiais desse mineral.",
+    alternativas: [
+      "trata-se do lítio, cuja principal mina fica no estado do Pará.",
+      "é o minério de ferro, exportado principalmente pela Serra dos Carajás.",
+      "trata-se do nióbio, com principal produção em Araxá, Minas Gerais.",
+      "é a bauxita, matéria-prima do alumínio, extraída em Trombetas (PA).",
+      "trata-se do manganês, encontrado na Serra do Navio, no Amapá."
+    ],
+    gabarito: 2,
+    explicacao: `O Brasil detém 98% das reservas mundiais de nióbio, mineral estratégico para a produção de aços especiais e ligas metálicas. A principal produtora é a CBMM (Companhia Brasileira de Metalurgia e Mineração), localizada em Araxá, Minas Gerais. Esse dado é muito cobrado pela VUNESP por ser um "número marcante" fácil de formular em questão.`,
+    pegadinha: `Lítio (carros elétricos) fica no Vale do Jequitinhonha (MG), não no PA. Minério de ferro = Serra dos Carajás, mas o Brasil é o 2º exportador, não detentor de 98% das reservas.`,
+    macete: `98% das reservas mundiais = NIÓBIO. CBMM = Araxá (MG).`
+  },
+  {
+    numero: 7,
+    tema: "Problemas Ambientais",
+    enunciado: `Em 25 de janeiro de 2019, o rompimento de uma barragem de rejeitos de mineração causou a maior tragédia ambiental da história do Brasil, vitimando 272 pessoas e devastando o rio Paraopeba. Esse evento ocorreu em`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Mariana (MG), em 2019.",
+      "Brumadinho (MG), em 2019.",
+      "Congonhas (MG), em 2015.",
+      "Ouro Preto (MG), em 2018.",
+      "Barra Longa (MG), em 2015."
+    ],
+    gabarito: 1,
+    explicacao: `O rompimento da Barragem B1 da Vale, em Brumadinho (MG), em 25 de janeiro de 2019, matou 272 pessoas e lançou mais de 12 milhões de m³ de lama no rio Paraopeba. É considerado o maior desastre ambiental do Brasil em número de vítimas. O desastre de Mariana (2015), no rio Doce, foi o maior em volume de rejeitos.`,
+    pegadinha: `Mariana = 2015 (rio Doce). Brumadinho = 2019 (rio Paraopeba). A banca pode trocar datas e rios — atenção a ambos.`,
+    macete: `Brumadinho = 2019 = 272 mortos = Paraopeba. Mariana = 2015 = maior volume = rio Doce.`
+  },
+  {
+    numero: 8,
+    tema: "População Brasileira",
+    enunciado: `Segundo o Censo IBGE 2022, a taxa de fecundidade total (TFT) das mulheres brasileiras ficou em 1,65 filhos por mulher, abaixo do chamado "nível de reposição". Com base nesse dado e nas tendências demográficas do Brasil, é correto afirmar que`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "a população brasileira crescerá cada vez mais rapidamente nas próximas décadas.",
+      "a pirâmide etária brasileira tende a ter base alargando e topo estreitando.",
+      "o Brasil terá, nas projeções futuras, uma população cada vez mais envelhecida.",
+      "a queda da TFT é compensada pela alta taxa de imigração estrangeira.",
+      "a proporção de crianças de 0 a 14 anos está crescendo no Brasil."
+    ],
+    gabarito: 2,
+    explicacao: `Com TFT de 1,65 (abaixo do nível de reposição de 2,1), nascem menos crianças a cada geração. Isso, combinado com o aumento da expectativa de vida (76,4 anos em 2023), está envelhecendo a pirâmide etária brasileira. A projeção do IBGE para 2070 aponta uma pirâmide invertida — mais idosos do que jovens. A faixa 65+ anos já cresceu 100% nos últimos 20 anos, representando 10,8% da população no Censo 2022.`,
+    pegadinha: `A faixa 0–14 anos está CAINDO (20,5% em 2022, contra mais de 30% em décadas anteriores), não crescendo. A imigração tem papel marginal no crescimento demográfico brasileiro.`,
+    macete: `TFT 1,65 < 2,1 (reposição) = menos nascimentos = população envelhecendo = pirâmide invertendo.`
+  },
+  {
+    numero: 9,
+    tema: "Espaço Agropecuário",
+    enunciado: `Leia o trecho a seguir: "Uma nova fronteira agrícola avança sobre os cerrados do Nordeste, envolvendo quatro estados onde a produção de soja, milho e algodão cresceu de forma explosiva nas últimas décadas, gerando preocupações com o desmatamento do bioma." Essa descrição refere-se à região conhecida como`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Triângulo Mineiro.",
+      "Matopiba.",
+      "Polo Carajás.",
+      "Agreste nordestino.",
+      "Mesorregião do Jaíba."
+    ],
+    gabarito: 1,
+    explicacao: `MATOPIBA é o acrônimo formado pelos estados Maranhão, Tocantins, Piauí e Bahia — a mais nova e dinâmica fronteira agrícola do Cerrado brasileiro. A região se destaca pela produção de soja, milho e algodão nos cerrados nordestinos, mas enfrenta críticas pela acelerada devastação do bioma. O nome foi formalizado pelo Ministério da Agricultura em 2015.`,
+    pegadinha: `O Agreste é uma zona de transição entre o litoral úmido e o sertão seco no Nordeste — não é fronteira da soja. O Triângulo Mineiro pertence a MG, não ao conjunto dos 4 estados.`,
+    macete: `MATOPIBA = MA + TO + PI + BA = nova fronteira da soja no Cerrado nordestino.`
+  },
+  {
+    numero: 10,
+    tema: "Atividades Industriais",
+    enunciado: `A Zona Franca de Manaus é um polo industrial criado com incentivos fiscais especiais para atrair empresas para a Região Amazônica. Sobre esse polo e a distribuição industrial brasileira, é correto afirmar que`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "a Zona Franca de Manaus está localizada no Nordeste e produz principalmente têxteis.",
+      "a concentração industrial brasileira está no Norte do país, tendo Manaus como principal centro.",
+      "o Sudeste concentra o maior parque industrial do Brasil, com destaque para o ABC Paulista.",
+      "a criação da Zona Franca de Manaus eliminou a desigualdade regional no setor industrial.",
+      "Manaus produz principalmente aço e minério de ferro para exportação à China."
+    ],
+    gabarito: 2,
+    explicacao: `O Sudeste brasileiro concentra o maior parque industrial da América Latina, com destaque para o estado de São Paulo e, especialmente, o ABC Paulista (Santo André, São Bernardo do Campo, São Caetano do Sul), berço da indústria automobilística brasileira. Já a Zona Franca de Manaus é uma exceção regional — um enclave industrial no Norte especializado em eletroeletrônicos e motocicletas (Honda), sustentado por incentivos fiscais, não pela proximidade de mercados.`,
+    pegadinha: `A Zona Franca não eliminou a desigualdade regional — é uma "bolha" de industrialização em meio à Amazônia. A indústria ainda é concentrada no Sudeste.`,
+    macete: `Maior parque industrial = Sudeste (ABC Paulista). Exceção no Norte = Zona Franca de Manaus (eletroeletrônicos + motos).`
+  },
+  {
+    numero: 11,
+    tema: "Mercosul",
+    enunciado: `O Mercosul foi criado pelo Tratado de Assunção em 1991. Sobre sua composição atual (2026), assinale a alternativa CORRETA:`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Venezuela e Bolívia são membros plenos ativos com plenos direitos no bloco.",
+      "O Mercosul é composto apenas por Brasil e Argentina, que fundaram o bloco.",
+      "Os membros plenos são Brasil, Argentina, Uruguai e Paraguai; Venezuela está suspensa desde 2016.",
+      "Chile é membro pleno do Mercosul desde 2010 e tem direito a voto nas decisões.",
+      "O Mercosul tem sede em Brasília e é o maior bloco econômico do mundo."
+    ],
+    gabarito: 2,
+    explicacao: `O Mercosul foi fundado em 26 de março de 1991 por Brasil, Argentina, Uruguai e Paraguai (Tratado de Assunção). A Venezuela foi suspensa em dezembro de 2016 por violação da cláusula democrática e não recuperou sua situação plena até 2026. A Bolívia está em processo de adesão desde 2015, mas ainda é membro associado. Chile e os demais países andinos são membros associados (acordos de livre comércio), sem direito a voto nas decisões do bloco.`,
+    pegadinha: `Venezuela SUSPENSA (não excluída, mas sem direitos plenos). Bolívia ASSOCIADA, não plena. Chile = ASSOCIADO, não pleno.`,
+    macete: `Membros plenos (2026): BR + AR + UY + PY. Venezuela = suspensa desde 2016.`
+  },
+  {
+    numero: 12,
+    tema: "Distribuição da População",
+    enunciado: `O mapa abaixo mostra a densidade demográfica das regiões brasileiras. A região que apresenta a maior densidade demográfica, com aproximadamente 42% da população nacional em apenas 11% do território, é`,
+    destaque: "Dados IBGE Censo 2022: população brasileira = 203 milhões de habitantes.",
+    alternativas: [
+      "Norte, por causa da fronteira agrícola do Matopiba.",
+      "Nordeste, por ser a segunda maior região em número de estados.",
+      "Centro-Oeste, por causa da expansão do agronegócio.",
+      "Sudeste, concentrando o litoral mais urbanizado e industrializado.",
+      "Sul, por causa da colonização europeia e do alto IDH médio."
+    ],
+    gabarito: 3,
+    explicacao: `O Sudeste (SP, RJ, MG, ES) concentra aproximadamente 42% da população com apenas 11% do território nacional — a maior densidade demográfica entre as regiões. Isso se deve ao processo histórico de industrialização (a partir do café), ao litoral mais urbanizado e ao eixo Rio–São Paulo. A região abriga a maior metrópole da América do Sul (Grande São Paulo, ~22 milhões de hab.) e o maior PIB do país.`,
+    pegadinha: `O Sul tem alta densidade (42 hab/km²), mas representa apenas ~15% da população total. O Norte tem a MENOR densidade (4,5 hab/km²).`,
+    macete: `42% da população + 11% do território = SUDESTE.`
+  },
+  {
+    numero: 13,
+    tema: "Hidrografia",
+    enunciado: `Qual das alternativas abaixo descreve corretamente a Bacia Hidrográfica do São Francisco?`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "É a maior bacia hidrográfica do Brasil e tem aproveitamento hidrelétrico em Itaipu.",
+      "Nasce no Peru e percorre a Região Norte até desaguar no Oceano Atlântico.",
+      "É o único grande rio que nasce integralmente no Brasil e percorre várias regiões, integrando o Nordeste semiárido.",
+      "Está localizada inteiramente na Região Sul e abastece o Pantanal.",
+      "É responsável por mais de 50% da geração hidrelétrica do país."
+    ],
+    gabarito: 2,
+    explicacao: `O Rio São Francisco nasce na Serra da Canastra (MG) e percorre MG, BA, PE, AL, SE, antes de desaguar no Atlântico — é o único grande rio genuinamente brasileiro em toda a sua extensão. Sua importância social é enorme: o Projeto de Transposição do São Francisco (concluído em trechos desde 2017) leva água ao sertão semiárido de CE, RN, PB e PE. A Bacia Amazônica é a maior do mundo; Itaipu fica no rio Paraná.`,
+    pegadinha: `O Amazonas nasce no Peru. O São Francisco NÃO está no Sul nem gera 50% da energia — isso é a Bacia do Paraná.`,
+    macete: `São Francisco = nasce em MG + percorre o Nordeste semiárido + Transposição.`
+  },
+  {
+    numero: 14,
+    tema: "Domínios Morfoclimáticos",
+    enunciado: `O domínio dos Mares de Morros está associado à Mata Atlântica. Sobre esse domínio, é correto afirmar que`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "ocupa o interior do Nordeste e tem como vegetação típica os campos de cerrado.",
+      "está localizado no extremo sul do Brasil e apresenta vegetação de campos abertos.",
+      "ocorre na faixa costeira brasileira, com relevo de morros arredondados e vegetação densa.",
+      "caracteriza-se por floresta densa e rios largos, sem estação seca definida.",
+      "está associado à Caatinga e ao semiárido nordestino."
+    ],
+    gabarito: 2,
+    explicacao: `O Domínio dos Mares de Morros coincide com a área de ocorrência da Mata Atlântica, na faixa costeira brasileira (ES, RJ, SP, PR, SC, RS, PE, BA). O relevo característico são os morros arredondados esculpidos pelo intemperismo tropical úmido. Hoje, restam apenas 12–16% da cobertura original desse bioma, tornando-o o mais devastado do Brasil. Sua proximidade com as áreas mais urbanizadas e industrializadas do país explica o alto grau de fragmentação.`,
+    pegadinha: `Floresta densa + rios largos + sem estação seca = domínio AMAZÔNICO, não Mares de Morros.`,
+    macete: `Morros verdes arredondados + próximo ao litoral = MARES DE MORROS (Mata Atlântica).`
+  },
+  {
+    numero: 15,
+    tema: "Matriz Energética",
+    enunciado: `O Brasil possui uma das matrizes elétricas mais limpas do mundo. Sobre a composição da geração elétrica brasileira em 2024, assinale a alternativa CORRETA:`,
+    destaque: "Dados ANEEL 2024.",
+    alternativas: [
+      "A fonte termelétrica (carvão e gás) responde por 61% da geração elétrica do Brasil.",
+      "A energia nuclear representa a maior fonte de geração elétrica do país, com 45%.",
+      "A energia hidrelétrica responde por 61% da geração elétrica, sendo Itaipu e Belo Monte as maiores usinas.",
+      "A energia solar é a principal fonte, representando mais de 50% da matriz.",
+      "A energia eólica supera a hidrelétrica e é a fonte dominante na matriz elétrica nacional."
+    ],
+    gabarito: 2,
+    explicacao: `Segundo dados da ANEEL (2024), as usinas hidrelétricas respondem por 61% da geração elétrica brasileira — o que torna o Brasil um dos países com maior participação de energia renovável na matriz. A energia eólica (14%) e a solar (10%) vêm crescendo rapidamente, especialmente no Nordeste. A energia nuclear (Angra 1, 2 e 3-RJ) contribui com apenas 1,3% — marginal no total.`,
+    pegadinha: `O Brasil tem uma matriz elétrica predominantemente RENOVÁVEL e HIDRÁULICA — não termelétrica. A termelétrica é acionada em emergências (seca).`,
+    macete: `61% hidrelétrica + 14% eólica + 10% solar = Brasil tem matriz elétrica limpa.`
+  },
+  {
+    numero: 16,
+    tema: "Urbanização",
+    enunciado: `Segundo o Censo IBGE 2022, o grau de urbanização do Brasil atingiu 87,6% da população. Esse alto índice é resultado de um processo histórico que teve seu pico entre as décadas de 1950 e 2000. A principal causa desse processo foi`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "a chegada de grandes contingentes de imigrantes europeus às cidades brasileiras após 1950.",
+      "a industrialização acelerada e o êxodo rural, que expulsou população do campo para as cidades.",
+      "a política de distribuição de terras nas cidades para a população mais pobre.",
+      "o clima favorável das regiões urbanas, que atraía populações rurais em todo o Brasil.",
+      "a redução da taxa de fecundidade, que concentrou a população nas grandes metrópoles."
+    ],
+    gabarito: 1,
+    explicacao: `O processo de urbanização acelerada no Brasil foi impulsionado pela industrialização (a partir dos anos 1930 com Vargas e intensificada com JK nos anos 1950) e pelo êxodo rural — migração do campo para a cidade motivada pela mecanização da agricultura, pela pobreza rural e pela atração de empregos urbanos. Esse movimento transformou o Brasil de um país rural (70% rural em 1950) para predominantemente urbano (87,6% em 2022) em apenas 70 anos.`,
+    pegadinha: `Imigrantes europeus vieram principalmente no século XIX/início do XX — não são causa principal da urbanização pós-1950. A queda da fecundidade é consequência, não causa.`,
+    macete: `Urbanização acelerada = industrialização + êxodo rural (mecanização do campo).`
+  },
+  {
+    numero: 17,
+    tema: "Transportes",
+    enunciado: `O Brasil apresenta uma matriz de transportes considerada desequilibrada. Com base nessa característica, assinale a alternativa que descreve corretamente o modal predominante e seu impacto no agronegócio:`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "O modal ferroviário responde por 65% do transporte de cargas, tornando o escoamento da soja mais barato.",
+      "O modal hidroviário é o mais utilizado no Brasil por ser o país com mais rios navegáveis do mundo.",
+      "O modal rodoviário domina com cerca de 65% das cargas, encarecendo o frete do agronegócio.",
+      "O Brasil tem a segunda maior malha ferroviária do mundo, atrás apenas dos EUA.",
+      "O modal aéreo responde por 40% do transporte de cargas no Brasil continental."
+    ],
+    gabarito: 2,
+    explicacao: `O modal rodoviário responde por aproximadamente 65% do transporte de cargas no Brasil — herança do modelo de desenvolvimento adotado desde os anos 1950 com a industrialização automobilística (governo JK). Esse desequilíbrio penaliza o agronegócio: o custo do frete para transportar soja de Mato Grosso ao Porto de Santos é estimado em até 3 vezes maior do que o equivalente norte-americano, que usa ferrovias e hidrovias.`,
+    pegadinha: `O Brasil tem ENORME potencial hidroviário (Paraná, Tietê, Amazônia), mas ele é SUBaproveitado — o hidroviário responde por apenas ~13% das cargas.`,
+    macete: `Rodovias = 65% das cargas + custo alto no agronegócio = matriz desequilibrada.`
+  },
+  {
+    numero: 18,
+    tema: "Relevo e Domínios",
+    enunciado: `O Pantanal é considerado a maior área alagável do planeta, com aproximadamente 150.000 km². Sobre esse ambiente, é correto afirmar que`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "está localizado na Região Norte, na Bacia Hidrográfica do Amazonas, no estado do Amazonas.",
+      "é reconhecido como Patrimônio Natural da Humanidade pela UNESCO e está localizado em MT e MS.",
+      "faz parte do Domínio Amazônico e apresenta floresta equatorial densa.",
+      "é formado por planícies do Nordeste e tem sua principal ameaça na desertificação.",
+      "integra o Domínio das Pradarias e é marcado por campos abertos sem árvores."
+    ],
+    gabarito: 1,
+    explicacao: `O Pantanal está localizado nos estados de Mato Grosso (MT) e Mato Grosso do Sul (MS), na Bacia Hidrográfica do Paraguai. Reconhecido como Patrimônio Natural da Humanidade pela UNESCO, é a maior planície alagável do mundo (~150.000 km² no Brasil). Em 2024, incêndios históricos atingiram 17% do bioma. Sua principal atividade econômica é a pecuária extensiva de bovinos e o ecoturismo.`,
+    pegadinha: `O Pantanal NÃO pertence ao domínio Amazônico nem está no Norte — está no Centro-Oeste, na Bacia do Paraguai.`,
+    macete: `Pantanal = MT + MS + Bacia do Paraguai + maior planície alagável + UNESCO.`
+  },
+  {
+    numero: 19,
+    tema: "Brasil no Mundo",
+    enunciado: `Sobre as relações comerciais internacionais do Brasil, assinale a alternativa CORRETA com base nos dados de 2025–2026:`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Os Estados Unidos são o maior parceiro comercial do Brasil, destino de 35% das exportações.",
+      "O Brasil exporta principalmente manufaturados para a China, como veículos e máquinas.",
+      "A China é o maior parceiro comercial do Brasil desde 2009, recebendo soja, petróleo e minério de ferro.",
+      "O Mercosul é o principal destino das exportações brasileiras de commodities.",
+      "O Brasil não faz parte de nenhum fórum multilateral relevante além do Mercosul."
+    ],
+    gabarito: 2,
+    explicacao: `A China tornou-se o maior parceiro comercial do Brasil em 2009 e permanece nessa posição em 2026, respondendo por cerca de 35% das exportações brasileiras. Os principais produtos exportados ao país asiático são commodities: soja (principal produto), petróleo e minério de ferro. Para o Mercosul, o Brasil exporta principalmente manufaturados e veículos — o perfil de exportação é diferente. Os EUA são o segundo parceiro.`,
+    pegadinha: `O Brasil exporta COMMODITIES para a China (soja, petróleo, minério) e MANUFATURADOS para o Mercosul. A questão pode inverter esses destinos.`,
+    macete: `China = 1º parceiro (commodities). Mercosul = 3º parceiro (manufaturados). EUA = 2º parceiro.`
+  },
+  {
+    numero: 20,
+    tema: "Domínios e Populacao (Revisão Final)",
+    enunciado: `Uma questão de concurso público apresentou a seguinte situação: "Um pesquisador visitou uma região do extremo sul do Rio Grande do Sul, na fronteira com a Argentina e o Uruguai. Ele descreveu campos abertos e planos, sem árvores nativas expressivas, clima subtropical com geadas frequentes e pecuária extensiva de gado e ovelhas como principal atividade econômica." Com base na descrição, o domínio morfoclimático visitado é`,
+    destaque: null,
+    tabela: null,
+    alternativas: [
+      "Domínio das Araucárias.",
+      "Domínio Amazônico.",
+      "Domínio dos Mares de Morros.",
+      "Domínio das Pradarias (Campanha Gaúcha).",
+      "Domínio da Caatinga."
+    ],
+    gabarito: 3,
+    explicacao: `O Domínio das Pradarias, também chamado de Campanha Gaúcha ou Pampa, ocupa o extremo sul do Rio Grande do Sul, na fronteira com Argentina e Uruguai. Suas características são: campos abertos e planos com gramíneas (sem árvores nativas expressivas), clima subtropical com geadas frequentes e pecuária extensiva de bovinos e ovinos como atividade tradicional. É a área de menor biodiversidade arbórea entre os domínios brasileiros.`,
+    pegadinha: `Araucárias também ficam no Sul (PR, SC, RS), mas têm pinheiros com copa em guarda-chuva — muito diferentes dos campos abertos das Pradarias.`,
+    macete: `Campos planos abertos + sem árvores + extremo Sul (RS) + pecuária = PRADARIAS (Pampa).`
+  }
+];
+
+let acertos = 0;
+let erros = 0;
+let respondidas = new Set();
+
+function renderizar() {
+  const container = document.getElementById('questoes-container');
+  container.innerHTML = '';
+  questoes.forEach((q, idx) => {
+    const div = document.createElement('div');
+    div.className = 'questao';
+    div.id = `q${idx}`;
+
+    let tabelaHTML = '';
+    if (q.tabela) {
+      tabelaHTML = `<table class="tabela-questao">
+        <thead><tr>${q.tabela.headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+        <tbody>${q.tabela.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table>`;
+    }
+    let destaqueHTML = q.destaque ? `<div class="destaque-box">${q.destaque}</div>` : '';
+    let enunciado2HTML = q.enunciado2 ? `<p class="enunciado" style="margin-top:12px"><strong>${q.enunciado2}</strong></p>` : '';
+
+    const altsHTML = q.alternativas.map((a, i) => {
+      const letra = String.fromCharCode(65+i);
+      return `<li class="alt" id="alt-${idx}-${i}" onclick="responder(${idx}, ${i})">
+        <span class="alt-letra">${letra}</span>
+        <span class="alt-texto">${a}</span>
+      </li>`;
+    }).join('');
+
+    div.innerHTML = `
+      <div class="questao-header">
+        <span class="q-numero">${String(q.numero).padStart(2,'0')}</span>
+        <span class="q-tema">${q.tema}</span>
+        <span class="q-status-icon" id="icon-${idx}"></span>
+      </div>
+      <div class="questao-body">
+        <p class="enunciado">${q.enunciado}</p>
+        ${destaqueHTML}
+        ${tabelaHTML}
+        ${enunciado2HTML}
+        <ul class="alternativas">${altsHTML}</ul>
+      </div>
+      <div class="gabarito-section" id="gab-${idx}">
+        <div class="gabarito-header">📋 Gabarito Comentado</div>
+        <div class="gabarito-body">
+          <span class="resposta-certa">✔ Gabarito: Alternativa ${String.fromCharCode(65+q.gabarito)}</span>
+          <p>${q.explicacao}</p>
+          ${q.pegadinha ? `<div class="dica-pegadinha">${q.pegadinha}</div>` : ''}
+          ${q.macete ? `<div class="macete">${q.macete}</div>` : ''}
+        </div>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function responder(qIdx, altIdx) {
+  if (respondidas.has(qIdx)) return;
+  respondidas.add(qIdx);
+
+  const q = questoes[qIdx];
+  const correto = altIdx === q.gabarito;
+
+  // Colorir alternativas
+  for (let i = 0; i < q.alternativas.length; i++) {
+    const el = document.getElementById(`alt-${qIdx}-${i}`);
+    el.style.pointerEvents = 'none';
+    if (i === q.gabarito) {
+      el.className = 'alt neutra-certa';
+    }
+    if (i === altIdx && !correto) {
+      el.className = 'alt errada';
+    }
+    if (i === altIdx && correto) {
+      el.className = 'alt correta';
+    }
+  }
+
+  // Mostrar gabarito
+  document.getElementById(`gab-${qIdx}`).style.display = 'block';
+
+  // Ícone
+  const icon = document.getElementById(`icon-${qIdx}`);
+  icon.style.display = 'block';
+  icon.textContent = correto ? '✓' : '✗';
+  icon.style.color = correto ? '#52b788' : '#ff6b6b';
+
+  // Placar
+  if (correto) acertos++; else erros++;
+  atualizarPlacar();
+
+  if (respondidas.size === questoes.length) {
+    setTimeout(mostrarResultado, 600);
+  }
+}
+
+function atualizarPlacar() {
+  document.getElementById('cnt-respondidas').textContent = respondidas.size;
+  document.getElementById('cnt-certas').textContent = acertos;
+  document.getElementById('cnt-erradas').textContent = erros;
+  const pct = (respondidas.size / questoes.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${respondidas.size} / ${questoes.length}`;
+}
+
+function mostrarResultado() {
+  const nota = Math.round((acertos / questoes.length) * 100);
+  let msg = '';
+  if (nota >= 80) msg = 'Excelente! Você está bem preparado para a prova. 🏆';
+  else if (nota >= 60) msg = 'Bom resultado! Revise os temas onde errou. 📚';
+  else msg = 'Continue estudando! Releia os gabaritos comentados. 💪';
+
+  let el = document.getElementById('resultado-final');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'resultado-final';
+    el.className = 'resultado-final';
+    document.getElementById('questoes-container').appendChild(el);
+  }
+  el.style.display = 'block';
+  el.innerHTML = `<h2>Resultado Final</h2>
+    <span class="nota">${nota}%</span>
+    <p>${acertos} acertos de ${questoes.length} questões</p>
+    <p style="margin-top:12px">${msg}</p>`;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetar() {
+  acertos = 0;
+  erros = 0;
+  respondidas = new Set();
+  atualizarPlacar();
+  const res = document.getElementById('resultado-final');
+  if (res) res.remove();
+  renderizar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderizar();
+</script>
+</body>
+</html>

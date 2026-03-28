@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado · Legislação · VUNESP · Lei 10.261/1968</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1a2e;
+    --paper: #f4f6fa;
+    --paper2: #e8ecf5;
+    --gold: #2563a8;
+    --gold-light: #4a8fd4;
+    --red: #7b1a1a;
+    --green: #145c2e;
+    --blue-dark: #0f2550;
+    --border: #b0c0d8;
+    --shadow: rgba(15,37,80,0.13);
+    --correct: #145c2e;
+    --wrong: #7b1a1a;
+    --neutral: #2a3a5a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background-color: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(37,99,168,0.06) 27px, rgba(37,99,168,0.06) 28px);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────────── */
+  /* Adicione junto ao CSS do Header */
+  .btn-voltar {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    color: var(--gold-light);
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .btn-voltar:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    .btn-voltar {
+      position: relative;
+      display: inline-block;
+      top: 0;
+      left: 0;
+      margin-bottom: 1.5rem;
+    }
+  }
+  header {
+    background: var(--blue-dark);
+    color: var(--paper);
+    text-align: center;
+    padding: 2.4rem 1.5rem 2rem;
+    border-bottom: 4px solid var(--gold-light);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 14px,
+      rgba(74,143,212,0.07) 14px, rgba(74,143,212,0.07) 15px
+    );
+  }
+  .header-badge {
+    display: inline-block;
+    border: 1.5px solid var(--gold-light);
+    color: var(--gold-light);
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    padding: .3rem .9rem;
+    margin-bottom: .9rem;
+    position: relative;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -.01em;
+    line-height: 1.15;
+    position: relative;
+  }
+  header p {
+    margin-top: .55rem;
+    font-size: .9rem;
+    opacity: .8;
+    font-style: italic;
+    position: relative;
+  }
+  .law-ref {
+    display: inline-block;
+    margin-top: .75rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: .3rem 1rem;
+    border-radius: 2px;
+    font-size: .78rem;
+    letter-spacing: .1em;
+    position: relative;
+  }
+
+  /* ── PROGRESS ────────────────────────────────── */
+  .progress-wrap {
+    background: var(--paper2);
+    border-bottom: 1px solid var(--border);
+    padding: .85rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .progress-track {
+    flex: 1; height: 7px;
+    background: var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 4px;
+    transition: width .5s ease; width: 0%;
+  }
+  .progress-label { font-size: .82rem; color: var(--neutral); white-space: nowrap; font-weight: 600; }
+  .score-badge {
+    font-size: .8rem; background: var(--blue-dark); color: var(--gold-light);
+    padding: .25rem .75rem; border-radius: 20px; font-weight: 600; white-space: nowrap;
+  }
+
+  /* ── MAIN ────────────────────────────────────── */
+  main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* ── QUESTION CARD ───────────────────────────── */
+  .question-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--gold);
+    border-radius: 2px;
+    padding: 2rem 2.2rem 1.8rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 4px 4px 0 rgba(37,99,168,0.1), 0 2px 16px var(--shadow);
+    animation: slideIn .45s ease both;
+    display: none;
+  }
+  .question-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-number {
+    font-family: 'Playfair Display', serif;
+    font-size: .78rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: .5rem;
+  }
+  .q-tag {
+    display: inline-block; background: var(--blue-dark); color: var(--paper);
+    font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    padding: .18rem .65rem; border-radius: 2px; margin-bottom: 1rem;
+  }
+  .art-ref {
+    display: inline-block; background: var(--gold); color: #fff;
+    font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .18rem .65rem; border-radius: 2px; margin-bottom: 1rem; margin-left: .4rem;
+    font-weight: 700;
+  }
+
+  .q-stimulus {
+    background: var(--paper2);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 2px 2px 0;
+    padding: .85rem 1.1rem;
+    margin-bottom: 1.2rem;
+    font-style: italic; font-size: .9rem; line-height: 1.65;
+    color: #2a3a5a;
+  }
+  .q-stimulus cite {
+    display: block; margin-top: .5rem; font-size: .78rem;
+    color: var(--gold); font-style: normal; font-weight: 600;
+  }
+  .q-enunciado { font-size: 1rem; line-height: 1.7; margin-bottom: 1.4rem; font-weight: 600; }
+
+  /* ── ALTERNATIVES ────────────────────────────── */
+  .alternatives { list-style: none; }
+  .alternatives li { margin-bottom: .6rem; }
+  .alt-btn {
+    width: 100%; display: flex; align-items: flex-start; gap: .85rem;
+    padding: .8rem 1rem; border: 1.5px solid var(--border); border-radius: 2px;
+    background: var(--paper); cursor: pointer; text-align: left;
+    font-family: 'Source Serif 4', Georgia, serif; font-size: .93rem;
+    line-height: 1.55; color: var(--ink);
+    transition: border-color .18s, background .18s, transform .12s;
+  }
+  .alt-btn:hover:not(:disabled) { border-color: var(--gold); background: #f0f4fb; transform: translateX(3px); }
+  .alt-letter {
+    min-width: 26px; height: 26px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 700; font-size: .8rem;
+    color: var(--gold); flex-shrink: 0; margin-top: .05rem;
+    transition: background .18s, color .18s, border-color .18s;
+  }
+  .alt-btn.correct { border-color: var(--correct); background: #f0faf4; }
+  .alt-btn.correct .alt-letter { background: var(--correct); color: #fff; border-color: var(--correct); }
+  .alt-btn.wrong { border-color: var(--wrong); background: #fdf3f3; opacity: .85; }
+  .alt-btn.wrong .alt-letter { background: var(--wrong); color: #fff; border-color: var(--wrong); }
+  .alt-btn:disabled { cursor: default; }
+
+  /* ── FEEDBACK ────────────────────────────────── */
+  .feedback {
+    margin-top: 1.4rem; padding: 1.2rem 1.3rem; border-radius: 2px;
+    font-size: .91rem; line-height: 1.7; display: none; animation: fadeIn .35s ease;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #f0faf4; border: 1px solid #7bbf96; border-left: 4px solid var(--correct); }
+  .feedback.wrong-fb   { background: #fdf3f3; border: 1px solid #d48888; border-left: 4px solid var(--wrong); }
+  .feedback-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: .5rem; }
+  .feedback.correct-fb .feedback-title { color: var(--correct); }
+  .feedback.wrong-fb .feedback-title   { color: var(--wrong); }
+  .gabarito-tag {
+    display: inline-block; background: var(--blue-dark); color: var(--gold-light);
+    font-size: .72rem; padding: .15rem .55rem; border-radius: 2px;
+    letter-spacing: .08em; font-weight: 600; margin-bottom: .55rem;
+  }
+  .lei-tag {
+    display: inline-block; background: var(--gold); color: #fff;
+    font-size: .68rem; padding: .12rem .5rem; border-radius: 2px;
+    font-weight: 700; margin-left: .35rem;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── NAV ─────────────────────────────────────── */
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1.6rem; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'Source Serif 4', serif; font-size: .88rem; font-weight: 600;
+    padding: .65rem 1.5rem; border-radius: 2px; border: none; cursor: pointer;
+    transition: opacity .2s, transform .15s; letter-spacing: .04em;
+  }
+  .btn:hover:not(:disabled) { opacity: .88; transform: translateY(-1px); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .btn-prev   { background: var(--paper2); color: var(--ink); border: 1px solid var(--border); }
+  .btn-next   { background: var(--blue-dark); color: var(--paper); }
+  .btn-finish { background: var(--gold); color: #fff; }
+
+  /* ── MAP ─────────────────────────────────────── */
+  .q-map {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    margin-bottom: 2rem; justify-content: center;
+  }
+  .q-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--paper2);
+    font-size: .78rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .18s; color: var(--neutral);
+  }
+  .q-dot:hover { border-color: var(--gold); color: var(--gold); }
+  .q-dot.answered-ok  { background: var(--correct); color: #fff; border-color: var(--correct); }
+  .q-dot.answered-err { background: var(--wrong);   color: #fff; border-color: var(--wrong); }
+  .q-dot.current { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+
+  /* ── RESULT ──────────────────────────────────── */
+  #result-screen { display: none; text-align: center; animation: slideIn .5s ease; }
+  .result-ring {
+    width: 140px; height: 140px; border-radius: 50%;
+    background: conic-gradient(var(--gold) 0%, var(--gold) var(--pct), var(--paper2) var(--pct));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem; box-shadow: 0 4px 24px var(--shadow);
+  }
+  .result-inner {
+    width: 110px; height: 110px; border-radius: 50%; background: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .result-score-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--blue-dark); line-height: 1; }
+  .result-score-label { font-size: .72rem; color: var(--neutral); }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: var(--blue-dark); margin-bottom: .5rem; }
+  .result-msg { font-size: .97rem; color: var(--neutral); margin-bottom: 2rem; font-style: italic; }
+  .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-box { background: #fff; border: 1px solid var(--border); border-radius: 2px; padding: 1rem; }
+  .stat-box strong { display: block; font-size: 1.6rem; font-family: 'Playfair Display', serif; color: var(--blue-dark); }
+  .stat-box span { font-size: .78rem; color: var(--neutral); }
+  .btn-restart { background: var(--blue-dark); color: var(--paper); font-size: 1rem; padding: .85rem 2.2rem; }
+  .review-list { text-align: left; margin-top: 2rem; }
+  .review-item {
+    background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--border);
+    padding: .9rem 1.1rem; margin-bottom: .7rem; border-radius: 0 2px 2px 0;
+    font-size: .88rem; line-height: 1.6;
+  }
+  .review-item.ok  { border-left-color: var(--correct); }
+  .review-item.err { border-left-color: var(--wrong); }
+  .review-q { font-weight: 600; margin-bottom: .25rem; }
+  .review-detail { font-size: .82rem; color: var(--neutral); }
+
+  @media (max-width: 600px) {
+    main { padding: 1.5rem 1rem 3rem; }
+    .question-card { padding: 1.4rem 1.2rem 1.4rem; }
+    .progress-wrap { padding: .65rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="btn-voltar">← Voltar ao Início</a>
+  <div class="header-badge">Simulado Inédito · 2025</div>
+  <h1>Legislação Estadual<br>Lei n° 10.261/1968 · Arts. 241–250</h1>
+  <p>20 questões comentadas · Deveres · Proibições · Responsabilidades</p>
+  <div class="law-ref">VUNESP · Concurso Público · Nível Fundamental · Estado de São Paulo</div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="prog-label">Questão 1 de 20</div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  <div class="score-badge" id="score-badge">Acertos: 0</div>
+</div>
+
+<main>
+  <div class="q-map" id="q-map"></div>
+  <div id="questions-wrap"></div>
+  <div id="result-screen">
+    <div class="result-ring" id="result-ring">
+      <div class="result-inner">
+        <span class="result-score-num" id="result-pct">0%</span>
+        <span class="result-score-label">aproveitamento</span>
+      </div>
+    </div>
+    <div class="result-title" id="result-title">Resultado Final</div>
+    <p class="result-msg" id="result-msg"></p>
+    <div class="result-grid">
+      <div class="stat-box"><strong id="r-acertos">0</strong><span>Acertos</span></div>
+      <div class="stat-box"><strong id="r-erros">0</strong><span>Erros</span></div>
+      <div class="stat-box"><strong id="r-total">20</strong><span>Total</span></div>
+    </div>
+    <button class="btn btn-restart" onclick="restart()">↺ Refazer Simulado</button>
+    <div class="review-list" id="review-list"></div>
+  </div>
+</main>
+
+<script>
+const questions = [
+// ─── Q1 ─── Art. 241, I e II
+{
+  tag: "Deveres do Funcionário",
+  art: "Art. 241 — Incisos I e II",
+  stimulus: `"O funcionário público ocupa uma posição de confiança perante o Estado e a sociedade. Suas obrigações legais buscam garantir o regular funcionamento do serviço público e a integridade da administração."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com a Lei Estadual n° 10.261/1968, são deveres do funcionário público estadual:",
+  options: [
+    "ser assíduo e pontual, e cumprir as ordens superiores, representando ao superior quando forem manifestamente ilegais.",
+    "ser assíduo e pontual, e recusar-se a cumprir ordens superiores que considerar incorretas, mesmo que não sejam manifestamente ilegais.",
+    "cumprir as ordens superiores sem nenhuma ressalva, inclusive as manifestamente ilegais, por força do princípio da hierarquia.",
+    "ser assíduo, podendo compensar os atrasos com horas extras no mesmo dia, conforme decisão do próprio funcionário.",
+    "cumprir as ordens superiores e, quando manifestamente ilegais, comunicar o fato diretamente à imprensa local."
+  ],
+  correct: 0,
+  gabarito: "A",
+  commentary: `O inciso I do art. 241 estabelece o dever de ser ASSÍDUO E PONTUAL. O inciso II determina CUMPRIR as ordens superiores, com a ressalva de REPRESENTAR (comunicar formalmente ao superior) quando as ordens forem MANIFESTAMENTE ILEGAIS — o funcionário não recusa, cumpre E representa. A alternativa B está errada porque o funcionário não pode recusar ordens que apenas considere incorretas — só representa quando forem manifestamente ilegais. A alternativa C está errada porque ordens manifestamente ilegais devem ser representadas. A alternativa E está errada porque a representação é ao superior hierárquico (ou ouvidoria desde 2024), não à imprensa.`
+},
+// ─── Q2 ─── Art. 241, IV (sigilo)
+{
+  tag: "Dever de Sigilo",
+  art: "Art. 241 — Inciso IV",
+  stimulus: `"A discrição é uma das marcas do bom servidor público. Informações internas da repartição, especialmente aquelas que envolvem decisões ainda não tornadas públicas, demandam cautela especial."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "Nos termos do art. 241, inciso IV, da Lei Estadual n° 10.261/1968, é dever do funcionário público estadual:",
+  options: [
+    "divulgar amplamente os assuntos da repartição para garantir a transparência administrativa.",
+    "guardar sigilo sobre os assuntos da repartição e, especialmente, sobre despachos, decisões ou providências.",
+    "guardar sigilo apenas sobre os documentos classificados como secretos por autoridade superior.",
+    "guardar sigilo sobre os assuntos da repartição, exceto quando solicitado por qualquer cidadão.",
+    "publicar os despachos e decisões da repartição em jornal de grande circulação, garantindo a publicidade dos atos."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 241, IV, prevê expressamente o dever de GUARDAR SIGILO sobre os assuntos da repartição, especialmente sobre DESPACHOS, DECISÕES e PROVIDÊNCIAS. A lei não restringe o sigilo apenas a documentos secretos — abrange os assuntos da repartição em geral, com especial atenção a despachos e decisões. A alternativa A inverte o dever (divulgar é proibido, não obrigatório). A alternativa C restringe indevidamente o sigilo a documentos secretos. A alternativa D cria exceção que não existe na lei (sigilo não cede por pedido de qualquer cidadão — isso se rege por outras normas). A alternativa E é absurda: publicar despachos em jornal contradiz o dever de sigilo.`
+},
+// ─── Q3 ─── Art. 241, V e parágrafo único (2024)
+{
+  tag: "Dever de Representar Irregularidades",
+  art: "Art. 241 — Inciso V e Parágrafo Único (LC 1.419/2024)",
+  stimulus: `"A Lei Complementar n° 1.419, de 27 de dezembro de 2024, acrescentou um parágrafo único ao art. 241 da Lei n° 10.261/1968, criando uma via alternativa para que o funcionário cumpra seu dever de representar irregularidades."`,
+  cite: "(LC n° 1.419/2024 — Alteração da Lei n° 10.261/1968)",
+  enunciado: "Sobre o dever de representar irregularidades previsto no art. 241, inciso V, da Lei n° 10.261/1968, com a redação dada pela LC n° 1.419/2024, é correto afirmar que:",
+  options: [
+    "o funcionário somente cumpre o dever de representar irregularidades quando comunica o fato ao superior hierárquico imediato, sendo vedado qualquer outro canal.",
+    "considera-se cumprido o dever quando o funcionário apresentar denúncia diretamente à unidade de ouvidoria do próprio órgão ou a outro órgão com competência para apurar a irregularidade.",
+    "o dever de representar irregularidades é cumprido exclusivamente por meio de comunicação escrita entregue pessoalmente ao chefe da repartição.",
+    "a partir de 2024, o funcionário pode optar por não representar a irregularidade, desde que a comunique verbalmente a um colega de trabalho.",
+    "o parágrafo único da LC 1.419/2024 extinguiu o dever de representar ao superior hierárquico, substituindo-o integralmente pela via da ouvidoria."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O parágrafo único do art. 241, acrescentado pela LC 1.419/2024, prevê que o dever de representar irregularidades (inciso V) considera-se CUMPRIDO quando o funcionário: (a) apresentar denúncia à UNIDADE DE OUVIDORIA do próprio órgão, OU (b) apresentar a outro órgão com competência para apurar a irregularidade. A alternativa A está errada: a lei criou canal alternativo (ouvidoria), não é o único canal. A alternativa C restringe indevidamente a forma à comunicação escrita pessoal ao chefe. A alternativa D é absurda: comunicação verbal a colega não cumpre o dever legal. A alternativa E está errada: a lei criou via alternativa, não extinguiu o canal do superior hierárquico.`
+},
+// ─── Q4 ─── Art. 241, VII (residência)
+{
+  tag: "Dever de Residência",
+  art: "Art. 241 — Inciso VII",
+  stimulus: `"A questão 36 da última prova cobrou exatamente este dispositivo: a alternativa correta reproduzia literalmente o inciso VII, enquanto as incorretas invertiam os termos 'exercer o cargo' e 'autorizado', ou incluíam condicionantes inexistentes."`,
+  cite: "(Análise de prova VUNESP aplicada — última edição)",
+  enunciado: "Segundo o art. 241, inciso VII, da Lei Estadual n° 10.261/1968, é dever do funcionário público estadual:",
+  options: [
+    "residir no local onde exerce o cargo ou, onde autorizado.",
+    "residir em qualquer município do Estado de São Paulo, independentemente do local onde exerce o cargo.",
+    "residir no local onde exerce o cargo, sendo vedada qualquer autorização para residência em outro município.",
+    "residir no município de sua preferência, desde que comunique o endereço ao superior hierárquico.",
+    "residir no local onde exerce o cargo somente enquanto estiver em estágio probatório."
+  ],
+  correct: 0,
+  gabarito: "A",
+  commentary: `O art. 241, inciso VII, reproduz literalmente: "Residir no local onde exerce o cargo ou, onde autorizado." Esta foi a alternativa correta da questão Q36 da última prova VUNESP. A lógica é: regra geral = residir onde exerce o cargo; exceção = residir em outro local, ONDE AUTORIZADO. As demais alternativas criam condições inexistentes na lei: a B suprime a exigência de nexo com o local do cargo; a C elimina a exceção de autorização; a D inverte a lógica (residência por preferência, não por autorização); a E restringe indevidamente o dever ao período de estágio probatório.`
+},
+// ─── Q5 ─── Art. 241, XI (requisições judiciais)
+{
+  tag: "Atendimento a Requisições Judiciais",
+  art: "Art. 241 — Inciso XI",
+  stimulus: `"A lei impõe ao funcionário uma hierarquia de prioridades ao atender solicitações. Há situações em que o atendimento não pode aguardar a fila regular dos serviços — deve ser tratado antes de tudo."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "Nos termos do art. 241, inciso XI, da Lei n° 10.261/1968, é dever do funcionário, em relação às requisições de papéis, documentos, informações ou providências feitas por autoridades judiciárias ou administrativas para defesa do Estado em Juízo:",
+  options: [
+    "atendê-las no prazo de 30 dias, com preferência sobre os demais serviços apenas quando determinado por escrito pelo superior.",
+    "atendê-las prontamente, com preferência sobre qualquer outro serviço.",
+    "atendê-las após a conclusão dos demais serviços em andamento, para não prejudicar o fluxo normal da repartição.",
+    "protocolá-las e encaminhá-las ao setor jurídico, sem prazo determinado para resposta.",
+    "atendê-las somente quando acompanhadas de ofício assinado pelo Procurador-Geral do Estado."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 241, inciso XI, determina que o funcionário deve atender às requisições judiciais ou administrativas para defesa do Estado em Juízo PRONTAMENTE, com PREFERÊNCIA SOBRE QUALQUER OUTRO SERVIÇO. São duas palavras-chave que a banca VUNESP frequentemente utiliza para criar pegadinhas: "prontamente" (sem demora) e "preferência sobre qualquer outro serviço" (é prioridade absoluta). A alternativa A cria prazo inexistente e condicionante (determinação escrita). A alternativa C inverte a ordem de prioridade. As alternativas D e E criam exigências formais que não existem no texto legal.`
+},
+// ─── Q6 ─── Art. 241, XIV (vida pública e privada)
+{
+  tag: "Conduta na Vida Pública e Privada",
+  art: "Art. 241 — Inciso XIV",
+  stimulus: `"O exercício da função pública impõe ao servidor um padrão de conduta que não se limita ao horário de expediente. A sociedade espera do funcionário público uma postura compatível com o cargo em qualquer esfera de sua vida."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com o art. 241, inciso XIV, da Lei Estadual n° 10.261/1968, é dever do funcionário público estadual:",
+  options: [
+    "proceder na vida pública da forma que julgar melhor, pois a lei não alcança o comportamento privado do servidor.",
+    "proceder na vida pública de forma que dignifique a função pública, não sendo exigido padrão equivalente na vida privada.",
+    "proceder na vida pública e privada na forma que dignifique a função pública.",
+    "proceder na vida privada de acordo com as normas legais, sendo a vida pública regulada exclusivamente pelo regimento interno da repartição.",
+    "proceder de acordo com as orientações do superior hierárquico, tanto na vida pública quanto na privada."
+  ],
+  correct: 2,
+  gabarito: "C",
+  commentary: `O art. 241, inciso XIV, determina: "Proceder na vida pública e privada na forma que dignifique a função pública." São dois campos exigidos: vida PÚBLICA e vida PRIVADA. A banca VUNESP frequentemente cria pegadinhas ao mencionar apenas um dos aspectos (só pública OU só privada). As alternativas A e B são erradas porque limitam a exigência à vida pública, excluindo indevidamente a vida privada. A alternativa D inverte o raciocínio. A alternativa E cria uma obrigação de obedecer ao superior em todas as esferas da vida, o que não existe na lei.`
+},
+// ─── Q7 ─── Art. 242 (proibições gerais — identificar a proibida)
+{
+  tag: "Proibições Gerais no Trabalho",
+  art: "Art. 242",
+  stimulus: `"A Lei n° 10.261/1968 lista, em seu art. 242, condutas que são vedadas ao funcionário durante o exercício do cargo e no ambiente de trabalho. O objetivo é garantir a dedicação integral ao serviço público durante o expediente."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com o art. 242 da Lei Estadual n° 10.261/1968, é PROIBIDO ao funcionário público estadual:",
+  options: [
+    "atender às requisições judiciais e administrativas durante o horário de serviço.",
+    "tratar de interesses particulares na repartição.",
+    "cooperar com os companheiros de trabalho durante o horário de expediente.",
+    "guardar os documentos oficiais da repartição em armário trancado sob sua responsabilidade.",
+    "reportar ao superior hierárquico as irregularidades constatadas durante o exercício das funções."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 242, inciso V, proíbe expressamente TRATAR DE INTERESSES PARTICULARES NA REPARTIÇÃO. A lógica é que o espaço e o tempo do serviço público devem ser dedicados exclusivamente ao serviço. As demais alternativas descrevem condutas lícitas ou até deveres: atender requisições judiciais (dever do art. 241, XI); cooperar com companheiros (dever do art. 241, XII); guardar documentos (gestão documental regular); reportar irregularidades ao superior (dever do art. 241, V). A banca VUNESP frequentemente mistura deveres e proibições para confundir o candidato.`
+},
+// ─── Q8 ─── Art. 242, II e III (documentos e atividades alheias)
+{
+  tag: "Proibições: Documentos e Atividades Alheias",
+  art: "Art. 242 — Incisos II e III",
+  stimulus: `"A disciplina funcional exige que o funcionário mantenha foco exclusivo no serviço durante o expediente e trate o patrimônio público com o cuidado e as formalidades devidas."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "Nos termos dos incisos II e III do art. 242 da Lei n° 10.261/1968, ao funcionário público estadual é PROIBIDO:",
+  options: [
+    "retirar documento da repartição com prévia permissão e dedicar-se a leituras durante o horário de serviço.",
+    "retirar qualquer documento ou objeto da repartição sem prévia permissão da autoridade competente, e entreter-se, durante as horas de trabalho, em palestras, leituras ou outras atividades estranhas ao serviço.",
+    "retirar documentos da repartição somente nos fins de semana e dedicar-se a atividades de aperfeiçoamento profissional durante o horário de serviço.",
+    "retirar documentos classificados como secretos e participar de treinamentos externos autorizados durante o expediente.",
+    "realizar leituras técnicas e retirar documentos com autorização verbal do supervisor imediato."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 242, inciso II, proíbe RETIRAR qualquer documento ou objeto da repartição sem PRÉVIA PERMISSÃO da autoridade competente — não basta autorização verbal do supervisor, deve ser formal e prévia. O inciso III proíbe ENTRETER-SE, durante as horas de trabalho, em palestras, leituras ou OUTRAS ATIVIDADES ESTRANHAS ao serviço. A alternativa A é errada porque a retirada com prévia permissão é permitida, e leituras durante o horário são proibidas. A alternativa C cria restrições inexistentes. As alternativas D e E misturam situações permitidas e proibidas de forma incorreta.`
+},
+// ─── Q9 ─── Art. 243, IV (fora do horário)
+{
+  tag: "Proibição Fora do Horário de Trabalho",
+  art: "Art. 243 — Inciso IV",
+  stimulus: `"Uma das características marcantes das proibições especiais do art. 243 é que algumas delas alcançam o funcionário mesmo quando não está em seu horário de trabalho. A fronteira entre o serviço e o particular é mais tênue do que parece."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com o art. 243, inciso IV, da Lei Estadual n° 10.261/1968, ao funcionário público estadual é proibido:",
+  options: [
+    "exercer, mesmo fora das horas de trabalho, emprego ou função em empresas ou instituições que tenham relações com o Governo, em matéria relacionada à finalidade da repartição onde está lotado.",
+    "exercer qualquer atividade remunerada fora do horário de trabalho, independentemente do ramo de atividade.",
+    "exercer emprego em empresas privadas somente durante o horário de trabalho, sendo livre qualquer atividade após o expediente.",
+    "exercer emprego em empresas que tenham relações com o Governo somente quando autorizado pelo superior hierárquico.",
+    "exercer emprego em empresas públicas durante o horário de trabalho, sendo permitida a atuação em empresas privadas em qualquer horário."
+  ],
+  correct: 0,
+  gabarito: "A",
+  commentary: `O art. 243, inciso IV, tem uma característica especial: a proibição alcança o funcionário MESMO FORA DAS HORAS DE TRABALHO. A proibição é exercer emprego ou função em empresas/instituições que tenham RELAÇÕES COM O GOVERNO em matéria RELACIONADA À FINALIDADE DA REPARTIÇÃO onde está lotado. Ou seja, o conflito de interesses é tão grave que não admite exceção temporal. A alternativa B exagera ao proibir qualquer atividade remunerada extra (o que não está na lei). A alternativa C inverte a lógica (o problema é exatamente fora do horário). As alternativas D e E criam condições inexistentes ou invertem a regra.`
+},
+// ─── Q10 ─── Art. 243, IX (procurador — exceção)
+{
+  tag: "Exceção: Procurador de Parentes",
+  art: "Art. 243 — Inciso IX",
+  stimulus: `"A regra é a proibição. Mas a lei, atenta às relações familiares, criou uma exceção expressa que foi exatamente o gabarito da questão Q37 da última prova VUNESP: o funcionário pode atuar como procurador em um caso específico."`,
+  cite: "(Análise de prova VUNESP aplicada — última edição)",
+  enunciado: "Nos termos do art. 243, inciso IX, da Lei n° 10.261/1968, ao funcionário público estadual é proibido constituir-se procurador de partes ou servir de intermediário perante repartição pública, EXCETO:",
+  options: [
+    "quando se tratar de interesse de qualquer familiar, independentemente do grau de parentesco.",
+    "quando houver autorização expressa e escrita do Secretário de Estado responsável.",
+    "quando se tratar de interesse de cônjuge ou parente até segundo grau.",
+    "quando a parte representada for pessoa jurídica sem fins lucrativos.",
+    "quando o funcionário tiver formação jurídica e estiver inscrito na Ordem dos Advogados do Brasil."
+  ],
+  correct: 2,
+  gabarito: "C",
+  commentary: `O art. 243, inciso IX, estabelece como REGRA que é proibido ao funcionário constituir-se procurador de partes ou servir de intermediário perante repartição pública. A EXCEÇÃO — e esta é a palavra-chave para a prova — é quando se tratar de interesse de CÔNJUGE ou PARENTE ATÉ SEGUNDO GRAU (pais, filhos, avós, netos, irmãos). Esta foi a alternativa correta da Q37. A alternativa A exagera ao incluir qualquer familiar sem limite de grau. A alternativa B cria autorização inexistente. As alternativas D e E criam exceções que não existem no texto legal.`
+},
+// ─── Q11 ─── Art. 243, parágrafo único (o que É PERMITIDO)
+{
+  tag: "O que É PERMITIDO — Exceções do Art. 243",
+  art: "Art. 243 — Parágrafo Único",
+  stimulus: `"A lei, ao listar proibições, também se preocupou em delimitar com clareza o que não está compreendido nelas. O parágrafo único do art. 243 estabelece situações expressamente permitidas, que a banca tende a cobrar em forma de pegadinha."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com o parágrafo único do art. 243 da Lei Estadual n° 10.261/1968, NÃO está compreendida nas proibições dos incisos II e VI do mesmo artigo a participação do funcionário como:",
+  options: [
+    "sócio administrador de empresa bancária que receba subvenção estadual.",
+    "gerente de empresa industrial com contrato de fornecimento ao Governo do Estado.",
+    "acionista, quotista ou comanditário de empresas que tenham relações com o Governo, e como diretor ou gerente de cooperativas e associações de classe.",
+    "representante comercial de empresa que mantenha relações com a repartição onde está lotado.",
+    "sócio majoritário de empresa que concorra em licitações promovidas pelo Governo do Estado."
+  ],
+  correct: 2,
+  gabarito: "C",
+  commentary: `O parágrafo único do art. 243 esclarece que NÃO estão compreendidas nas proibições dos incisos II e VI: (1) a participação em sociedades em que o Estado seja acionista; (2) a direção ou gerência de COOPERATIVAS e ASSOCIAÇÕES DE CLASSE, ou a participação como sócio. Além disso, o inciso VI, in fine, permite ser ACIONISTA, QUOTISTA ou COMANDITÁRIO (investidor sem gestão). O que é proibido é GERENCIAR ou ADMINISTRAR empresas bancárias, industriais ou comerciais que tenham relações com o Governo. As demais alternativas descrevem atividades de gestão/administração que continuam proibidas.`
+},
+// ─── Q12 ─── Art. 243-A (professor orientador)
+{
+  tag: "Exceção: Professor Orientador de Estágio",
+  art: "Art. 243-A (LC n° 1.361/2021)",
+  stimulus: `"A Lei Complementar n° 1.361/2021 introduziu no Estatuto dos Funcionários Públicos do Estado de São Paulo uma exceção específica para uma categoria de servidores que desempenham papel duplo: dentro e fora da repartição."`,
+  cite: "(LC n° 1.361/2021 — Alteração da Lei n° 10.261/1968)",
+  enunciado: "O art. 243-A da Lei n° 10.261/1968, acrescentado pela LC n° 1.361/2021, prevê uma exceção à proibição do art. 243, inciso IV. Sobre essa exceção e seus limites, é correto afirmar que:",
+  options: [
+    "a exceção permite ao funcionário exercer qualquer cargo em empresa privada, desde que seja professor.",
+    "a exceção se aplica ao funcionário de órgão concedente de estágio que atue como professor orientador, mas ele deve comunicar ao superior qualquer circunstância impeditiva e abster-se de atuar em processos em que houver interesse da instituição de ensino.",
+    "a exceção é irrestrita e não impõe nenhum dever adicional ao professor orientador de estágio.",
+    "a exceção vale para qualquer funcionário público que seja também professor, independentemente da relação com o estágio.",
+    "o professor orientador pode participar de decisões da unidade administrativa mesmo quando houver interesse da instituição de ensino a que está vinculado."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 243-A, criado pela LC 1.361/2021, excepciona a proibição do art. 243, IV (exercer função fora do horário em empresa ligada ao governo) para o funcionário de ÓRGÃO CONCEDENTE DE ESTÁGIO que atue como PROFESSOR ORIENTADOR. Porém, a exceção vem acompanhada de deveres específicos: (1) COMUNICAR ao superior hierárquico qualquer circunstância, suspeição ou fato impeditivo de sua participação em decisão; (2) ABSTER-SE de atuar nos processos em que houver interesse da INSTITUIÇÃO DE ENSINO. A finalidade é evitar conflito de interesses. As alternativas A, C e D ampliam a exceção de forma indevida. A alternativa E permite exatamente o que a lei proíbe.`
+},
+// ─── Q13 ─── Art. 244 (trabalhar com parentes — exceção)
+{
+  tag: "Restrição de Trabalho com Parentes",
+  art: "Art. 244",
+  stimulus: `"A questão Q38 da última prova VUNESP cobrou exatamente este artigo. O candidato deveria identificar a exceção à vedação de trabalhar sob ordens imediatas de parentes — e o detalhe do limite numérico era a chave."`,
+  cite: "(Análise de prova VUNESP aplicada — última edição)",
+  enunciado: "De acordo com o art. 244 da Lei Estadual n° 10.261/1968, é VEDADO ao funcionário trabalhar sob as ordens imediatas de parentes até segundo grau, salvo quando se tratar de:",
+  options: [
+    "qualquer cargo efetivo, desde que haja autorização expressa da Secretaria de Estado competente.",
+    "função de confiança e livre escolha, não podendo exceder a dois o número de auxiliares parentes nessas condições.",
+    "cargo de concurso público, pois a aprovação em concurso afasta qualquer vedação de parentesco.",
+    "função de confiança ou cargo em comissão, sem nenhuma limitação quanto ao número de parentes.",
+    "qualquer função, desde que os parentes trabalhem em setores diferentes da mesma repartição."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 244 estabelece: REGRA = vedado trabalhar sob ordens imediatas de parente até 2º grau; EXCEÇÃO = quando se tratar de FUNÇÃO DE CONFIANÇA e LIVRE ESCOLHA — ambos os requisitos devem estar presentes. LIMITE NUMÉRICO = não pode exceder a 2 (dois) o número de auxiliares parentes nessas condições no mesmo chefe. Este foi o gabarito da Q38. A alternativa A cria autorização inexistente. A alternativa C inverte a lógica (concurso público não afasta a vedação). A alternativa D suprime o limite numérico, que é fundamental. A alternativa E cria exceção inexistente baseada em setores diferentes.`
+},
+// ─── Q14 ─── Art. 245 (responsabilidade — dolo ou culpa)
+{
+  tag: "Responsabilidade por Prejuízos — Dolo ou Culpa",
+  art: "Art. 245",
+  stimulus: `"A questão Q39 da última prova VUNESP cobrou o art. 245. O gabarito reproduzia quase literalmente o caput e o §único, I. As alternativas erradas distorciam elementos como 'guarda', 'má-fé' e 'forma parcelada'."`,
+  cite: "(Análise de prova VUNESP aplicada — última edição)",
+  enunciado: "Nos termos do art. 245 da Lei Estadual n° 10.261/1968, o funcionário público estadual é responsável pelos prejuízos causados à Fazenda Estadual:",
+  options: [
+    "somente quando agir com dolo, pois a culpa não gera responsabilidade funcional.",
+    "independentemente de apuração, cabendo ao funcionário provar que não agiu com dolo ou culpa.",
+    "por dolo ou culpa, devidamente apurados, incluindo a sonegação de valores e objetos confiados à sua guarda ou responsabilidade.",
+    "somente quando os prejuízos superarem o valor de 50 salários mínimos, conforme limite legal.",
+    "apenas pelos bens que estejam sob sua guarda física direta, excluindo os sujeitos à sua fiscalização."
+  ],
+  correct: 2,
+  gabarito: "C",
+  commentary: `O art. 245, caput, estabelece que o funcionário é responsável por todos os prejuízos que, nessa qualidade, causar à Fazenda Estadual por DOLO OU CULPA, DEVIDAMENTE APURADOS. O §único, inciso I, inclui a sonegação de valores e objetos confiados à sua guarda ou responsabilidade, ou por não prestar contas, ou por não as tomar. A alternativa A está errada: a culpa também gera responsabilidade. A alternativa B está errada: a lei exige apuração formal ("devidamente apurados"). A alternativa D cria limite pecuniário inexistente. A alternativa E está errada: o §único, II, inclui bens sujeitos à fiscalização, não apenas à guarda física direta.`
+},
+// ─── Q15 ─── Art. 245, §único, II (fiscalização)
+{
+  tag: "Responsabilidade por Bens sob Fiscalização",
+  art: "Art. 245 — §Único, Inciso II",
+  stimulus: `"A responsabilidade do funcionário público estadual por danos ao patrimônio público vai além da custódia física. A lei alcança também quem tem o dever legal de verificar o estado dos bens, ainda que não os guarde fisicamente."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com o art. 245, §único, inciso II, da Lei n° 10.261/1968, caracteriza-se a responsabilidade do funcionário pelas:",
+  options: [
+    "faltas, danos, avarias e quaisquer outros prejuízos que sofrerem os bens e materiais sob sua guarda ou sujeitos ao seu exame ou fiscalização.",
+    "faltas, danos e avarias sofridas pelos bens da repartição que estejam exclusivamente sob sua guarda física direta.",
+    "avarias em bens que o funcionário tenha pessoalmente adquirido para a repartição, independentemente de guarda.",
+    "faltas e danos em bens de outras repartições que o funcionário tenha visitado em missão oficial.",
+    "avarias em bens sob guarda de terceiros, desde que o funcionário tenha assinado termo de ciência sobre esses bens."
+  ],
+  correct: 0,
+  gabarito: "A",
+  commentary: `O art. 245, §único, inciso II, prevê responsabilidade por faltas, danos, avarias e quaisquer outros prejuízos que sofrerem os bens e materiais SOB SUA GUARDA, ou sujeitos a seu EXAME ou FISCALIZAÇÃO. A abrangência é dupla: (1) bens sob guarda (custódia física) e (2) bens sujeitos a exame ou fiscalização (dever de verificar, mesmo sem custódia). A alternativa B restringe indevidamente à guarda física direta, excluindo a fiscalização. As alternativas C, D e E criam hipóteses que não existem no texto legal. A banca VUNESP frequentemente usa a restrição "somente bens sob guarda" como pegadinha.`
+},
+// ─── Q16 ─── Art. 246 (materiais irregulares)
+{
+  tag: "Aquisição Irregular de Materiais",
+  art: "Art. 246",
+  stimulus: `"O controle sobre o processo de aquisição de materiais é um dos pilares da boa gestão pública. A lei é expressa ao prever as consequências para o funcionário que descumpre as normas de compras públicas."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "Segundo o art. 246 da Lei Estadual n° 10.261/1968, o funcionário que adquirir materiais em desacordo com disposições legais e regulamentares:",
+  options: [
+    "será responsabilizado pelo respectivo custo, podendo-se proceder a desconto no seu vencimento ou remuneração, sem prejuízo das penalidades disciplinares.",
+    "não poderá ter descontado nenhum valor de seu vencimento, devendo a restituição ser feita em parcela única por meio de depósito bancário.",
+    "será responsabilizado somente se tiver agido com dolo, sendo a mera culpa insuficiente para a responsabilização.",
+    "responderá exclusivamente na esfera civil, sendo vedada qualquer penalidade de natureza disciplinar.",
+    "terá o custo dos materiais irregulares dividido proporcionalmente com o superior hierárquico que autorizou a compra."
+  ],
+  correct: 0,
+  gabarito: "A",
+  commentary: `O art. 246 determina que o funcionário que adquirir materiais em desacordo com disposições legais e regulamentares será: (1) responsabilizado pelo RESPECTIVO CUSTO dos materiais; (2) sem prejuízo das PENALIDADES DISCIPLINARES cabíveis; (3) podendo-se PROCEDER AO DESCONTO em seu vencimento ou remuneração. A alternativa B está errada: o desconto no vencimento é expressamente previsto. A alternativa C está errada: a lei não exige dolo — o simples desacordo com normas já gera responsabilidade. A alternativa D está errada: penalidades disciplinares são expressamente previstas. A alternativa E é totalmente fantasiosa — não há previsão de divisão com o superior.`
+},
+// ─── Q17 ─── Art. 247 (reposição de uma só vez)
+{
+  tag: "Reposição de Uma Só Vez — Casos Graves",
+  art: "Art. 247",
+  stimulus: `"Nos casos mais graves de desvio ou omissão funcional, a lei não admite parcelamento. A resposta do Estado deve ser imediata e integral — o erário não pode aguardar um plano de pagamento mensal."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "Nos termos do art. 247 da Lei Estadual n° 10.261/1968, o funcionário será obrigado a repor DE UMA SÓ VEZ a importância do prejuízo causado em virtude de:",
+  options: [
+    "simples erro de preenchimento de formulário, sem intenção de causar prejuízo à Fazenda.",
+    "atraso no atendimento de requisição judicial, por esquecimento involuntário.",
+    "alcance, desfalque, remissão e omissão em efetuar recolhimento ou entrada nos prazos legais.",
+    "quaisquer prejuízos à Fazenda Estadual, inclusive os decorrentes de erro de cálculo sem má-fé.",
+    "danos a materiais da repartição causados por desgaste natural do uso regular."
+  ],
+  correct: 2,
+  gabarito: "C",
+  commentary: `O art. 247 determina reposição DE UMA SÓ VEZ (sem parcelamento) nos seguintes casos graves: ALCANCE (uso indevido de valores públicos), DESFALQUE (subtração de valores do erário), REMISSÃO (perdão irregular de dívida pública) e OMISSÃO EM EFETUAR RECOLHIMENTO ou entrada nos prazos legais. A palavra-chave "de uma só vez" é frequentemente cobrada pela banca VUNESP em contraposição ao desconto parcelado do art. 248. A alternativa A descreve hipótese de erro sem má-fé, que cai no art. 248 (repreensão/suspensão). A alternativa B não gera reposição nos moldes do art. 247. A alternativa D aplica incorretamente o art. 247 ao erro de cálculo sem má-fé. A alternativa E não configura responsabilidade funcional.`
+},
+// ─── Q18 ─── Art. 248 (desconto parcelado + erro sem má-fé)
+{
+  tag: "Desconto Parcelado e Erro de Cálculo",
+  art: "Art. 248",
+  stimulus: `"A lei diferencia o funcionário que erra por distração ou despreparo daquele que age de má-fé. Essa distinção tem consequências diretas no tipo de sanção aplicável."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "De acordo com o art. 248 da Lei Estadual n° 10.261/1968, nas hipóteses não enquadradas no art. 247, a importância da indenização à Fazenda Estadual:",
+  options: [
+    "deverá ser paga de uma só vez, no prazo de 30 dias, sem possibilidade de desconto em vencimento.",
+    "poderá ser descontada do vencimento ou remuneração, limitada a 1/10 (um décimo) por vez, sendo que o erro de cálculo sem má-fé na primeira ocorrência acarreta pena de repreensão.",
+    "poderá ser descontada sem qualquer limite percentual do vencimento, até quitar o débito integralmente.",
+    "somente poderá ser descontada com autorização judicial, após sentença condenatória transitada em julgado.",
+    "gera automaticamente a pena de suspensão do funcionário, independentemente de ser a primeira ocorrência ou de haver má-fé."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 248 trata dos casos de indenização que não se enquadram nos casos graves do art. 247. Nessas hipóteses: (1) a indenização PODERÁ ser descontada do vencimento ou remuneração; (2) LIMITE: no máximo 1/10 (um décimo) do vencimento por vez. O parágrafo único traz regra especial para ERRO DE CÁLCULO SEM MÁ-FÉ (art. 245, §único, IV): na 1ª ocorrência = REPREENSÃO; na reincidência = SUSPENSÃO. A alternativa A confunde com o art. 247. A alternativa C suprime o limite de 1/10. A alternativa D cria exigência judicial inexistente. A alternativa E aplica automaticamente a suspensão, ignorando a progressividade da sanção.`
+},
+// ─── Q19 ─── Art. 249 (delegação proibida)
+{
+  tag: "Delegação Proibida de Encargos",
+  art: "Art. 249",
+  stimulus: `"A responsabilidade funcional é intransferível. O servidor público que tenta se eximir de suas obrigações repassando-as a pessoas de fora do serviço público, sem amparo legal, não apenas falha no dever — responde pelo ato."`,
+  cite: "(Adaptado de doutrina sobre Direito Administrativo Estadual)",
+  enunciado: "Nos termos do art. 249 da Lei Estadual n° 10.261/1968, será responsabilizado o funcionário que:",
+  options: [
+    "delegar encargos a subordinados dentro da repartição, conforme previsão expressa do regimento interno.",
+    "cometer a pessoas estranhas às repartições o desempenho de encargos que lhe competirem ou a seus subordinados, fora dos casos expressamente previstos nas leis, regulamentos ou regimentos.",
+    "delegar tarefas a servidores de outros órgãos por meio de termo de cooperação técnica autorizado.",
+    "solicitar colaboração de estagiários para atividades administrativas previstas no programa de estágio.",
+    "distribuir encargos entre seus subordinados diretos para otimizar o fluxo de trabalho da repartição."
+  ],
+  correct: 1,
+  gabarito: "B",
+  commentary: `O art. 249 proíbe que o funcionário cometa a PESSOAS ESTRANHAS ÀS REPARTIÇÕES o desempenho de encargos que lhe competirem ou aos seus subordinados, FORA DOS CASOS EXPRESSAMENTE PREVISTOS nas leis, regulamentos ou regimentos. O objetivo é impedir que atribuições públicas sejam terceirizadas informalmente para pessoas sem vínculo com o serviço público. A alternativa A é lícita: delegar a subordinados dentro da repartição é gestão normal. A alternativa C pode ser lícita se há previsão legal. A alternativa D envolve estagiários, que têm previsão legal própria. A alternativa E descreve distribuição interna de tarefas, que é permitida.`
+},
+// ─── Q20 ─── Art. 250 (independência das responsabilidades)
+{
+  tag: "Independência das Responsabilidades",
+  art: "Art. 250 — §§ 1º, 2º e 3º",
+  stimulus: `"A questão Q40 da última prova VUNESP cobrou o art. 250 integralmente. O gabarito reproduzia o §3º sobre sobrestamento. As alternativas erradas invertiam 'independente' por 'vinculada' e suprimiam 'todos os direitos'."`,
+  cite: "(Análise de prova VUNESP aplicada — última edição)",
+  enunciado: "Sobre a responsabilidade do funcionário público estadual prevista no art. 250 da Lei n° 10.261/1968, assinale a alternativa CORRETA:",
+  options: [
+    "a responsabilidade administrativa é vinculada à responsabilidade civil e à criminal, de modo que a absolvição criminal extingue automaticamente a responsabilidade administrativa.",
+    "o servidor absolvido pela Justiça será reintegrado ao cargo que ocupava, mas com vencimentos reduzidos em razão do período de afastamento.",
+    "a responsabilidade administrativa exime o funcionário da responsabilidade civil ou criminal, pois o pagamento da indenização exclui qualquer pena disciplinar.",
+    "o processo administrativo só poderá ser sobrestado para aguardar decisão judicial por despacho motivado da autoridade competente para aplicar a pena.",
+    "o processo administrativo pode ser sobrestado por qualquer chefia imediata, mediante comunicação verbal à autoridade superior."
+  ],
+  correct: 3,
+  gabarito: "D",
+  commentary: `O art. 250, §3º, prevê que o processo administrativo SÓ PODERÁ SER SOBRESTADO para aguardar decisão judicial por DESPACHO MOTIVADO da autoridade competente para APLICAR A PENA — não é qualquer chefia, e não é comunicação verbal. Esta foi a alternativa correta da Q40. A alternativa A está errada: o §1º estabelece que a responsabilidade administrativa é INDEPENDENTE da civil e criminal. A alternativa B está errada: o §2º prevê reintegração com TODOS os direitos e vantagens devidos — sem redução. A alternativa C inverte o caput: a responsabilidade administrativa NÃO exime das demais, e o pagamento da indenização NÃO exclui a pena disciplinar. A alternativa E contraria o §3º em dois pontos: qualquer chefia não tem essa competência, e deve ser despacho escrito e motivado.`
+}
+];
+
+// ─────────── STATE ───────────
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+let score = 0;
+
+// ─────────── BUILD ───────────
+function build() {
+  const wrap = document.getElementById('questions-wrap');
+  const map  = document.getElementById('q-map');
+  wrap.innerHTML = '';
+  map.innerHTML  = '';
+
+  questions.forEach((q, qi) => {
+    const dot = document.createElement('button');
+    dot.className = 'q-dot' + (qi === 0 ? ' current' : '');
+    dot.textContent = qi + 1;
+    dot.title = `Questão ${qi + 1}`;
+    dot.onclick = () => goTo(qi);
+    dot.id = `dot-${qi}`;
+    map.appendChild(dot);
+
+    const card = document.createElement('div');
+    card.className = 'question-card' + (qi === 0 ? ' active' : '');
+    card.id = `card-${qi}`;
+
+    const opts = q.options.map((opt, oi) => `
+      <li>
+        <button class="alt-btn" id="opt-${qi}-${oi}" onclick="choose(${qi},${oi})">
+          <span class="alt-letter">${'ABCDE'[oi]}</span>
+          <span>${opt}</span>
+        </button>
+      </li>`).join('');
+
+    card.innerHTML = `
+      <div class="q-number">Questão ${qi + 1} de ${questions.length}</div>
+      <span class="q-tag">${q.tag}</span><span class="art-ref">${q.art}</span>
+      <div class="q-stimulus">${q.stimulus}<cite>${q.cite}</cite></div>
+      <div class="q-enunciado">${q.enunciado}</div>
+      <ul class="alternatives">${opts}</ul>
+      <div class="feedback" id="fb-${qi}">
+        <div class="gabarito-tag">Gabarito: Alternativa ${q.gabarito}</div>
+        <span class="lei-tag">${q.art}</span>
+        <div class="feedback-title" id="fb-title-${qi}"></div>
+        <div id="fb-text-${qi}">${q.commentary}</div>
+      </div>
+      <div class="nav-row">
+        <button class="btn btn-prev" onclick="prev()" ${qi===0?'disabled':''}>← Anterior</button>
+        ${qi < questions.length-1
+          ? `<button class="btn btn-next" onclick="next()">Próxima →</button>`
+          : `<button class="btn btn-finish" onclick="finish()">Ver Resultado ✓</button>`
+        }
+      </div>`;
+    wrap.appendChild(card);
+  });
+  updateProgress();
+}
+
+// ─────────── CHOOSE ──────────
+function choose(qi, oi) {
+  if (answers[qi] !== null) return;
+  const q = questions[qi];
+  const isCorrect = oi === q.correct;
+  if (isCorrect) score++;
+  answers[qi] = { chosen: oi, correct: q.correct };
+
+  for (let i = 0; i < q.options.length; i++) {
+    const btn = document.getElementById(`opt-${qi}-${i}`);
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === oi && !isCorrect) btn.classList.add('wrong');
+  }
+
+  const fb = document.getElementById(`fb-${qi}`);
+  const fbTitle = document.getElementById(`fb-title-${qi}`);
+  fb.classList.add('show');
+  if (isCorrect) {
+    fb.classList.add('correct-fb');
+    fbTitle.textContent = '✓ Resposta correta!';
+  } else {
+    fb.classList.add('wrong-fb');
+    fbTitle.textContent = `✗ Resposta incorreta. A alternativa correta é a ${q.gabarito}.`;
+  }
+
+  const dot = document.getElementById(`dot-${qi}`);
+  dot.classList.remove('current');
+  dot.classList.add(isCorrect ? 'answered-ok' : 'answered-err');
+  updateProgress();
+}
+
+// ─────────── NAV ─────────────
+function goTo(qi) {
+  document.getElementById(`card-${current}`).classList.remove('active');
+  document.getElementById(`dot-${current}`).classList.remove('current');
+  current = qi;
+  document.getElementById(`card-${current}`).classList.add('active');
+  if (!answers[qi]) document.getElementById(`dot-${qi}`).classList.add('current');
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function next() { if (current < questions.length-1) goTo(current+1); }
+function prev() { if (current > 0) goTo(current-1); }
+
+// ─────────── PROGRESS ────────
+function updateProgress() {
+  const answered = answers.filter(a=>a!==null).length;
+  const pct = Math.round((answered/questions.length)*100);
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-label').textContent = `Questão ${current+1} de ${questions.length}`;
+  document.getElementById('score-badge').textContent = `Acertos: ${score}`;
+}
+
+// ─────────── FINISH ──────────
+function finish() {
+  const unanswered = answers.filter(a=>a===null).length;
+  if (unanswered > 0) {
+    const ok = confirm(`Você ainda tem ${unanswered} questão(ões) sem resposta. Deseja finalizar mesmo assim?`);
+    if (!ok) return;
+  }
+  document.getElementById('questions-wrap').style.display = 'none';
+  document.getElementById('q-map').style.display = 'none';
+
+  const pct = Math.round((score/questions.length)*100);
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+  document.getElementById('result-ring').style.setProperty('--pct', pct+'%');
+  document.getElementById('result-pct').textContent = pct+'%';
+  document.getElementById('r-acertos').textContent = score;
+  document.getElementById('r-erros').textContent = questions.length - score;
+
+  let title, msg;
+  if (pct >= 90) { title = 'Excelente! 🏆'; msg = 'Domínio excepcional da Lei 10.261/1968. Você está pronto para a prova!'; }
+  else if (pct >= 70) { title = 'Muito bem! 🎯'; msg = 'Bom desempenho. Revise as exceções dos arts. 243-244 e o art. 250.'; }
+  else if (pct >= 50) { title = 'Em desenvolvimento 📚'; msg = 'Releia os artigos com atenção às palavras-chave e pegadinhas da banca.'; }
+  else { title = 'Continue estudando 💪'; msg = 'Volte ao plano de 4 dias e estude artigo por artigo antes de refazer.'; }
+
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+
+  const rl = document.getElementById('review-list');
+  rl.innerHTML = '<h3 style="margin-bottom:1rem;font-family:\'Playfair Display\',serif;font-size:1.1rem;color:var(--blue-dark);">Revisão das questões</h3>';
+  questions.forEach((q, qi) => {
+    const a = answers[qi];
+    const ok = a && a.chosen === a.correct;
+    const div = document.createElement('div');
+    div.className = 'review-item ' + (a===null ? '' : ok ? 'ok' : 'err');
+    div.innerHTML = `<div class="review-q">Q${qi+1} · ${q.tag} · <em>${q.art}</em></div>
+      <div class="review-detail">
+        ${a===null ? '⚠️ Não respondida' : ok ? '✓ Correta' : `✗ Você marcou: ${['A','B','C','D','E'][a.chosen]} · Correta: ${q.gabarito}`}
+      </div>`;
+    rl.appendChild(div);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─────────── RESTART ─────────
+function restart() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  score = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('questions-wrap').style.display = '';
+  document.getElementById('q-map').style.display = '';
+  build();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+</script>
+</body>
+</html>
